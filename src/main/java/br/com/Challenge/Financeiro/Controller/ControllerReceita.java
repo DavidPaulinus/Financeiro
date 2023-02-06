@@ -61,7 +61,7 @@ public class ControllerReceita {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<ReceitaDetalhamentoDTO> atualizarReceita(@PathVariable Long id, @PathVariable @Valid ReceitaDTO dto) throws ParseException {
+	public ResponseEntity<ReceitaDetalhamentoDTO> atualizarReceita(@PathVariable Long id, @RequestBody @Valid ReceitaDTO dto) throws ParseException {
 		System.out.println("\\Atualizando");
 		
 		var rece = rRep.getReferenceById(id);
