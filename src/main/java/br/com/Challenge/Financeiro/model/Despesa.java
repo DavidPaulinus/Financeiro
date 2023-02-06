@@ -3,6 +3,7 @@ package br.com.Challenge.Financeiro.model;
 import java.text.ParseException;
 import java.util.Date;
 
+import br.com.Challenge.Financeiro.DTO.DespesaDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaDTO;
 import br.com.Challenge.Financeiro.util.Conversor;
 import jakarta.persistence.Entity;
@@ -15,12 +16,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "tbreceitas")
+@Table(name = "tbdespesa")
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Receita {
+public class Despesa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,13 +29,13 @@ public class Receita {
 	private Double valor;
 	private Date data;
 
-	public Receita(ReceitaDTO dto) throws ParseException {
+	public Despesa(DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());
 	}
 
-	public void atualizarReceita(@Valid ReceitaDTO dto) throws ParseException {
+	public void atualizarDespesa(@Valid ReceitaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());
