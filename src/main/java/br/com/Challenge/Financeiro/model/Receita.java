@@ -1,10 +1,10 @@
 package br.com.Challenge.Financeiro.model;
 
-import java.util.Date;
 import java.text.ParseException;
+import java.util.Date;
 
 import br.com.Challenge.Financeiro.DTO.ReceitaDTO;
-import br.com.Challenge.Financeiro.uitl.Conversor;
+import br.com.Challenge.Financeiro.util.Conversor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

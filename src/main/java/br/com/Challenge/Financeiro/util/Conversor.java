@@ -1,4 +1,4 @@
-package br.com.Challenge.Financeiro.uitl;
+package br.com.Challenge.Financeiro.util;
 
 import java.util.Date;
 import java.text.ParseException;
