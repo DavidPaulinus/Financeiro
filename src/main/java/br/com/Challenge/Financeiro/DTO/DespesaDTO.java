@@ -1,5 +1,16 @@
 package br.com.Challenge.Financeiro.DTO;
 
-public record DespesaDTO(String descricao, Double valor, String data) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record DespesaDTO(
+		@NotBlank
+		String descricao,
+		
+		@NotNull
+		Double valor, 
+		
+		@NotBlank
+		String data){
 
 }

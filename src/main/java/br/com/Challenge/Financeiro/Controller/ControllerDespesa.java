@@ -21,6 +21,7 @@ import br.com.Challenge.Financeiro.DTO.DespesaDetalhamentoDTO;
 import br.com.Challenge.Financeiro.DTO.DespesaListaDTO;
 import br.com.Challenge.Financeiro.DespesaRepository.DespesaRepository;
 import br.com.Challenge.Financeiro.model.Despesa;
+import br.com.Challenge.Financeiro.service.Service;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -31,13 +32,15 @@ public class ControllerDespesa {
 	@Autowired
 	private DespesaRepository dRep;
 	
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity cadastrarDespesa(@RequestBody @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
 		System.out.println("\\Cadastrando");
 		
+		
 		var desp = new Despesa(dto);
-		dRep.save(desp);
+		dRep.save(new Service().DespesaValida(dRep, desp));
 		
 		System.out.println("/Cadastrado");
 		
@@ -47,11 +50,15 @@ public class ControllerDespesa {
 	
 	@GetMapping
 	public ResponseEntity<Page<DespesaListaDTO>> listarDespesa(Pageable page){
+		System.out.println("***Listando***");
+		
 		return ResponseEntity.ok(dRep.findAll(page).map(DespesaListaDTO::new));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<DespesaDetalhamentoDTO> detalharDespesa(@PathVariable Long id) {
+		System.out.println("***Detalhando***");
+		
 		return ResponseEntity.ok(new DespesaDetalhamentoDTO(dRep.getReferenceById(id)));
 	}
 	

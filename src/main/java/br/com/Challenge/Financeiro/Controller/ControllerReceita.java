@@ -21,6 +21,7 @@ import br.com.Challenge.Financeiro.DTO.ReceitaDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaDetalhamentoDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaListarDTO;
 import br.com.Challenge.Financeiro.model.Receita;
+import br.com.Challenge.Financeiro.service.Service;
 import br.com.Challenge.Financeiro.util.ReceitaRepository.ReceitaReppository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -37,12 +38,12 @@ public class ControllerReceita {
 	public ResponseEntity cadatrar(@RequestBody @Valid ReceitaDTO dto, UriComponentsBuilder uriBuilder) throws ParseException {
 		System.out.println("\\Cadastrando");
 		
-		var contt = new Receita(dto);
-		rRep.save(contt);
+		var rec = new Receita(dto);
+		rRep.save(new Service().ReceitaValida(rRep, rec));
 				
 		System.out.println("/Cadastrado");
 		
-		return ResponseEntity.created(uriBuilder.path("/receitas/{id}").buildAndExpand(contt.getId()).toUri()).body(new ReceitaDetalhamentoDTO(contt));
+		return ResponseEntity.created(uriBuilder.path("/receitas/{id}").buildAndExpand(rec.getId()).toUri()).body(new ReceitaDetalhamentoDTO(rec));
 	}
 	
 	@GetMapping
