@@ -35,7 +35,7 @@ public class Despesa {
 		this.data = Conversor.toDate(dto.data());
 	}
 
-	public void atualizarDespesa(@Valid ReceitaDTO dto) throws ParseException {
+	public void atualizarDespesa(@Valid DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());

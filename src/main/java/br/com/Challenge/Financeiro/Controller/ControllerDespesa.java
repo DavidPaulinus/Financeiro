@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,7 +32,7 @@ public class ControllerDespesa {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity cadastrarDespesa(@PathVariable @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
+	public ResponseEntity cadastrarDespesa(@RequestBody @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
 		System.out.println("\\Cadastrando");
 		
 		var desp = new Despesa(dto);
@@ -50,6 +52,19 @@ public class ControllerDespesa {
 	@GetMapping("/{id}")
 	public ResponseEntity<DespesaDetalhamentoDTO> detalharDespesa(@PathVariable Long id) {
 		return ResponseEntity.ok(new DespesaDetalhamentoDTO(dRep.getReferenceById(id)));
+	}
+	
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<DespesaDetalhamentoDTO> atualizarDespesa(@PathVariable Long id, @RequestBody @Valid DespesaDTO dto) throws ParseException {
+		System.out.println("\\Atualizando");
+		
+		var desp = dRep.getReferenceById(id);
+		desp.atualizarDespesa(dto);
+		
+		System.out.println("/Atualizado");
+		
+		return ResponseEntity.ok(new DespesaDetalhamentoDTO(desp));
 	}
 	
 }
