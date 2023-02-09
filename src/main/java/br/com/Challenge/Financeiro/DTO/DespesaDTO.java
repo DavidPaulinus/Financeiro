@@ -1,5 +1,6 @@
 package br.com.Challenge.Financeiro.DTO;
 
+import br.com.Challenge.Financeiro.enums.Categorias;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +12,8 @@ public record DespesaDTO(
 		Double valor, 
 		
 		@NotBlank
-		String data){
+		String data,
+		
+		Categorias categoria){
 
 }

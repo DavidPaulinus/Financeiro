@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.util.Date;
 
 import br.com.Challenge.Financeiro.DTO.DespesaDTO;
-import br.com.Challenge.Financeiro.DTO.ReceitaDTO;
+import br.com.Challenge.Financeiro.enums.Categorias;
 import br.com.Challenge.Financeiro.util.Conversor;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,7 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "tbdespesa")
+@Table(name = "tbdespesas")
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,17 +30,22 @@ public class Despesa {
 	private String descricao;
 	private Double valor;
 	private Date data;
+	
+	@Enumerated(EnumType.STRING)
+	private Categorias categoria;
 
 	public Despesa(DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());
+		this.categoria = Conversor.categoriaOutros(dto.categoria());
 	}
 
 	public void atualizarDespesa(@Valid DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());
+		this.categoria = Conversor.categoriaOutros(dto.categoria());
 	}
 
 }

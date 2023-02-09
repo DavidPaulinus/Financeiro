@@ -35,9 +35,8 @@ public class ControllerDespesa {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity cadastrarDespesa(@RequestBody @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
+	public ResponseEntity<DespesaDetalhamentoDTO> cadastrarDespesa(@RequestBody @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
 		System.out.println("\\Cadastrando");
-		
 		
 		var desp = new Despesa(dto);
 		dRep.save(new Service().DespesaValida(dRep, desp));
@@ -60,6 +59,17 @@ public class ControllerDespesa {
 		System.out.println("***Detalhando***");
 		
 		return ResponseEntity.ok(new DespesaDetalhamentoDTO(dRep.getReferenceById(id)));
+	}
+	
+	public ResponseEntity<Page<DespesaListaDTO>> listarDespesaPorDescricao(@PathVariable String descri, Pageable page){
+		System.out.println("***Listando despesa por descrição***");
+		
+		return ResponseEntity.ok(dRep.findAllDespesasByDescricao(page, descri).map(DespesaListaDTO::new));
+	}
+	
+	@GetMapping("/{descricao}")
+	public void listarRecitasByDecricao() {
+		
 	}
 	
 	@PutMapping("/{id}")
