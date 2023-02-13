@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import br.com.Challenge.Financeiro.model.Receita;
 
-public interface ReceitaReppository extends JpaRepository<Receita, Long>{
-	
+public interface ReceitaReppository extends JpaRepository<Receita, Long> {
+
 	@Query("SELECT r FROM Receita r WHERE r.descricao = :descri")
-	Page<Receita>findAllReceitasByDescricao(Pageable page,String descri);
+	Page<Receita> findAllReceitasByDescricao(Pageable page, String descri);
+
 }

@@ -32,6 +32,7 @@ public class Receita {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
 		this.data = Conversor.toDate(dto.data());
+		
 	}
 
 	public void atualizarReceita(@Valid ReceitaDTO dto) throws ParseException {

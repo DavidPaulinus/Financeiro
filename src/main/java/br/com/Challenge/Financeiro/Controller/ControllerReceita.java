@@ -1,5 +1,6 @@
 package br.com.Challenge.Financeiro.Controller;
 
+import java.security.Provider.Service;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,10 @@ import br.com.Challenge.Financeiro.DTO.ReceitaDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaDetalhamentoDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaListarDTO;
 import br.com.Challenge.Financeiro.model.Receita;
-import br.com.Challenge.Financeiro.service.Service;
+import br.com.Challenge.Financeiro.service.ServiceReceita;
 import br.com.Challenge.Financeiro.util.ReceitaRepository.ReceitaReppository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/receitas")
@@ -40,7 +40,7 @@ public class ControllerReceita {
 			UriComponentsBuilder uriBuilder) throws ParseException {
 		
 		var rec = new Receita(dto);
-		rRep.save(new Service().ReceitaValida(rRep, rec));
+		rRep.save(new ServiceReceita().ReceitaValida(rRep, rec));
 
 		return ResponseEntity.created(uriBuilder.path("/receitas/{id}").buildAndExpand(rec.getId()).toUri())
 				.body(new ReceitaDetalhamentoDTO(rec));
@@ -60,6 +60,11 @@ public class ControllerReceita {
 	public ResponseEntity<Page<ReceitaListarDTO>> listarDescricoesReceita(@PathVariable String descricao,Pageable page) {
 		return ResponseEntity.ok(rRep.findAllReceitasByDescricao(page, descricao).map(ReceitaListarDTO::new));
 
+	}
+	
+	@GetMapping("/{ano}/{mes}")
+	public ResponseEntity<Page<ReceitaListarDTO>> listarReceitasPorMes(@PathVariable Integer ano, @PathVariable Integer mes, Pageable page){
+		return ResponseEntity.ok(new ServiceReceita().findPorData(rRep, ano, mes).map(ReceitaListarDTO::new));
 	}
 
 	@PutMapping("/{id}")
