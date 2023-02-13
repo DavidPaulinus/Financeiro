@@ -1,6 +1,5 @@
 package br.com.Challenge.Financeiro.Controller;
 
-import java.security.Provider.Service;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +22,15 @@ import br.com.Challenge.Financeiro.DTO.ReceitaDetalhamentoDTO;
 import br.com.Challenge.Financeiro.DTO.ReceitaListarDTO;
 import br.com.Challenge.Financeiro.model.Receita;
 import br.com.Challenge.Financeiro.service.ServiceReceita;
-import br.com.Challenge.Financeiro.util.ReceitaRepository.ReceitaReppository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/receitas")
 public class ControllerReceita {
-
+	
 	@Autowired
-	private ReceitaReppository rRep;
+	private ServiceReceita service;
 
 	@PostMapping
 	@Transactional
@@ -40,7 +38,7 @@ public class ControllerReceita {
 			UriComponentsBuilder uriBuilder) throws ParseException {
 		
 		var rec = new Receita(dto);
-		rRep.save(new ServiceReceita().ReceitaValida(rRep, rec));
+		service.salvar(rec);
 
 		return ResponseEntity.created(uriBuilder.path("/receitas/{id}").buildAndExpand(rec.getId()).toUri())
 				.body(new ReceitaDetalhamentoDTO(rec));
@@ -48,30 +46,30 @@ public class ControllerReceita {
 
 	@GetMapping
 	public ResponseEntity<Page<ReceitaListarDTO>> listarReceita(@PageableDefault(sort = { "data" }) Pageable page) {
-		return ResponseEntity.ok(rRep.findAll(page).map(ReceitaListarDTO::new));
+		return ResponseEntity.ok(service.listar().map(ReceitaListarDTO::new));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReceitaDetalhamentoDTO> detalharReceita(@PathVariable Long id) {
-		return ResponseEntity.ok(new ReceitaDetalhamentoDTO(rRep.getReferenceById(id)));
+		return ResponseEntity.ok(new ReceitaDetalhamentoDTO(service.detalhar(id)));
 	}
 
 	@GetMapping("/descricao/{descricao}")
 	public ResponseEntity<Page<ReceitaListarDTO>> listarDescricoesReceita(@PathVariable String descricao,Pageable page) {
-		return ResponseEntity.ok(rRep.findAllReceitasByDescricao(page, descricao).map(ReceitaListarDTO::new));
+		return ResponseEntity.ok(service.listarPorDescricao(descricao, page).map(ReceitaListarDTO::new));
 
 	}
 	
 	@GetMapping("/{ano}/{mes}")
 	public ResponseEntity<Page<ReceitaListarDTO>> listarReceitasPorMes(@PathVariable Integer ano, @PathVariable Integer mes, Pageable page){
-		return ResponseEntity.ok(new ServiceReceita().findPorData(rRep, ano, mes).map(ReceitaListarDTO::new));
+		return ResponseEntity.ok(service.findPorData(ano, mes).map(ReceitaListarDTO::new));
 	}
 
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<ReceitaDetalhamentoDTO> atualizarReceita(@PathVariable Long id,
 			@RequestBody @Valid ReceitaDTO dto) throws ParseException {
-		var rece = rRep.getReferenceById(id);
+		var rece = service.detalhar(id);
 
 		rece.atualizarReceita(dto);
 
@@ -81,7 +79,7 @@ public class ControllerReceita {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity deletarReceita(@PathVariable Long id) {
-		rRep.deleteById(id);
+		service.deletar(id);
 
 		return ResponseEntity.noContent().build();
 	}
