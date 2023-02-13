@@ -25,6 +25,7 @@ import br.com.Challenge.Financeiro.service.Service;
 import br.com.Challenge.Financeiro.util.ReceitaRepository.ReceitaReppository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/receitas")
@@ -37,12 +38,9 @@ public class ControllerReceita {
 	@Transactional
 	public ResponseEntity<ReceitaDetalhamentoDTO> cadatrar(@RequestBody @Valid ReceitaDTO dto,
 			UriComponentsBuilder uriBuilder) throws ParseException {
-		System.out.println("\\Cadastrando");
-
+		
 		var rec = new Receita(dto);
 		rRep.save(new Service().ReceitaValida(rRep, rec));
-
-		System.out.println("/Cadastrado");
 
 		return ResponseEntity.created(uriBuilder.path("/receitas/{id}").buildAndExpand(rec.getId()).toUri())
 				.body(new ReceitaDetalhamentoDTO(rec));
@@ -50,22 +48,16 @@ public class ControllerReceita {
 
 	@GetMapping
 	public ResponseEntity<Page<ReceitaListarDTO>> listarReceita(@PageableDefault(sort = { "data" }) Pageable page) {
-		System.out.println("***Listando***");
-
 		return ResponseEntity.ok(rRep.findAll(page).map(ReceitaListarDTO::new));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReceitaDetalhamentoDTO> detalharReceita(@PathVariable Long id) {
-		System.out.println("***Detalhando***");
-
 		return ResponseEntity.ok(new ReceitaDetalhamentoDTO(rRep.getReferenceById(id)));
 	}
 
-	@GetMapping("/{descricao}")
+	@GetMapping("/descricao/{descricao}")
 	public ResponseEntity<Page<ReceitaListarDTO>> listarDescricoesReceita(@PathVariable String descricao,Pageable page) {
-		System.out.println("***Listando por descrição");
-
 		return ResponseEntity.ok(rRep.findAllReceitasByDescricao(page, descricao).map(ReceitaListarDTO::new));
 
 	}
@@ -74,13 +66,9 @@ public class ControllerReceita {
 	@Transactional
 	public ResponseEntity<ReceitaDetalhamentoDTO> atualizarReceita(@PathVariable Long id,
 			@RequestBody @Valid ReceitaDTO dto) throws ParseException {
-		System.out.println("\\Atualizando");
-
 		var rece = rRep.getReferenceById(id);
 
 		rece.atualizarReceita(dto);
-
-		System.out.println("/Atualizado");
 
 		return ResponseEntity.ok(new ReceitaDetalhamentoDTO(rece));
 	}
@@ -88,11 +76,7 @@ public class ControllerReceita {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity deletarReceita(@PathVariable Long id) {
-		System.out.println("\\Deletando");
-
 		rRep.deleteById(id);
-
-		System.out.println("/Deletado");
 
 		return ResponseEntity.noContent().build();
 	}

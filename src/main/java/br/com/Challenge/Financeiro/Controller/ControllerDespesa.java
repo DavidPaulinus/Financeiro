@@ -36,12 +36,9 @@ public class ControllerDespesa {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<DespesaDetalhamentoDTO> cadastrarDespesa(@RequestBody @Valid DespesaDTO dto, UriComponentsBuilder uri) throws ParseException {
-		System.out.println("\\Cadastrando");
-		
+
 		var desp = new Despesa(dto);
 		dRep.save(new Service().DespesaValida(dRep, desp));
-		
-		System.out.println("/Cadastrado");
 		
 		return ResponseEntity.created(uri.path("/despesas/{id}").buildAndExpand(desp.getId()).toUri()
 				).body(new DespesaDetalhamentoDTO(desp));
@@ -49,49 +46,37 @@ public class ControllerDespesa {
 	
 	@GetMapping
 	public ResponseEntity<Page<DespesaListaDTO>> listarDespesa(Pageable page){
-		System.out.println("***Listando***");
-		
 		return ResponseEntity.ok(dRep.findAll(page).map(DespesaListaDTO::new));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<DespesaDetalhamentoDTO> detalharDespesa(@PathVariable Long id) {
-		System.out.println("***Detalhando***");
-		
 		return ResponseEntity.ok(new DespesaDetalhamentoDTO(dRep.getReferenceById(id)));
 	}
 	
-	public ResponseEntity<Page<DespesaListaDTO>> listarDespesaPorDescricao(@PathVariable String descri, Pageable page){
-		System.out.println("***Listando despesa por descrição***");
-		
+	public ResponseEntity<Page<DespesaListaDTO>> listarDespesaPorDescricao(@PathVariable String descri, Pageable page){		
 		return ResponseEntity.ok(dRep.findAllDespesasByDescricao(page, descri).map(DespesaListaDTO::new));
 	}
 	
-	@GetMapping("/{descricao}")
-	public void listarRecitasByDecricao() {
-		
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity<Page<DespesaListaDTO>> listarRecitasByDecricao(@PathVariable String descricao, Pageable page) {
+		return ResponseEntity.ok(dRep.findAllDespesasByDescricao(page, descricao).map(DespesaListaDTO::new));
 	}
 	
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<DespesaDetalhamentoDTO> atualizarDespesa(@PathVariable Long id, @RequestBody @Valid DespesaDTO dto) throws ParseException {
-		System.out.println("\\Atualizando");
-		
+	
 		var desp = dRep.getReferenceById(id);
 		desp.atualizarDespesa(dto);
-		
-		System.out.println("/Atualizado");
 		
 		return ResponseEntity.ok(new DespesaDetalhamentoDTO(desp));
 	}
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity deletarDespesa(@PathVariable Long id) {
-		System.out.println("\\Deletando");
 		
 		dRep.deleteById(id);
-		
-		System.out.println("/Deletado");
 		
 		return ResponseEntity.noContent().build();
 	}
