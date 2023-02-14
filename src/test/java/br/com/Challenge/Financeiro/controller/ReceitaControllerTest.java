@@ -16,13 +16,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DespesaControllerTest {
+public class ReceitaControllerTest {
 	@Autowired
 	private MockMvc mock;
-
+	
 	@Test
 	public void shouldGet201ByCreatingDespesa() throws Exception {
-		URI uri = new URI("/despesas");
+		URI uri = new URI("/receitas");
 		
 		String json = "{\r\n"
 				+ "\"descricao\": \"g\",\r\n"
@@ -38,25 +38,8 @@ public class DespesaControllerTest {
 	}
 	
 	@Test
-	public void shouldGet400ByCreatingDespesaWithSameDescricaoInTheSameMonth() throws Exception {
-		URI uri = new URI("/despesas");
-		
-		String json = "{\r\n"
-				+ "\"descricao\": \"a\",\r\n"
-				+ "\"valor\": 200.0,\r\n"
-				+ "\"data\": \"12/10/2000\",\r\n"
-				+ "\"categoria\": \"OUTRAS\"\r\n"
-				+ "}";
-		
-		mock.perform(MockMvcRequestBuilders.post(uri)
-				.content(json)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is(201));
-	}
-
-	@Test
 	public void shouldGet200FromFindAll() throws Exception {
-		URI uri = new URI("/despesas");
+		URI uri = new URI("/receitas");
 		
 		mock.perform(MockMvcRequestBuilders.get(uri)
 				.contentType(MediaType.APPLICATION_JSON))
@@ -65,19 +48,19 @@ public class DespesaControllerTest {
 	
 	@Test
 	public void shouldGet200FromFindById() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.get("/despesas/{id}", 1))
+		mock.perform(MockMvcRequestBuilders.get("/receitas/{id}", 1))
 				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 	
 	@Test
 	public void shouldGet200FromFindByDescricao() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.get("/despesas/descricao/{descricao}", "a"))
+		mock.perform(MockMvcRequestBuilders.get("/receitas/descricao/{descricao}", "a"))
 				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 	
 	@Test
 	public void shouldGet200FromFindAllByAnoMes() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.get("/despesas/{ano}/{mes}", 2000, 10))
+		mock.perform(MockMvcRequestBuilders.get("/receitas/{ano}/{mes}", 2000, 10))
 				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 	
@@ -89,7 +72,7 @@ public class DespesaControllerTest {
 				+ "\"data\": \"11/10/2000\"\r\n"
 				+ "}";
 		
-		mock.perform(MockMvcRequestBuilders.put("/despesas/{id}", 1)
+		mock.perform(MockMvcRequestBuilders.put("/receitas/{id}", 1)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is(200));
@@ -97,9 +80,7 @@ public class DespesaControllerTest {
 	
 	@Test
 	public void shouldGet200FromDeletById() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.delete("/despesas/{id}", 1))
+		mock.perform(MockMvcRequestBuilders.delete("/receitas/{id}", 1))
 				.andExpect(MockMvcResultMatchers.status().is(204));
 	}
-	
-
 }
