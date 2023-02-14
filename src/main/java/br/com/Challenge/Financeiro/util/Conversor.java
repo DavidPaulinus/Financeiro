@@ -15,7 +15,6 @@ public class Conversor {
 
 	public static Categorias categoriaOutros(Categorias categoria) {
 		if (categoria == null) {
-			System.out.println("Null");
 			return Categorias.OUTRAS;
 
 		} else {
