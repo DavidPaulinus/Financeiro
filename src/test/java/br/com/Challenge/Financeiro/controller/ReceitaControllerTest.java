@@ -3,19 +3,18 @@ package br.com.Challenge.Financeiro.controller;
 import java.net.URI;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class ReceitaControllerTest {
 	@Autowired
 	private MockMvc mock;
@@ -27,8 +26,7 @@ public class ReceitaControllerTest {
 		String json = "{\r\n"
 				+ "\"descricao\": \"g\",\r\n"
 				+ "\"valor\": 200.0,\r\n"
-				+ "\"data\": \"12/10/2000\",\r\n"
-				+ "\"categoria\": \"OUTRAS\"\r\n"
+				+ "\"data\": \"12/10/2000\"\r\n"
 				+ "}";
 		
 		mock.perform(MockMvcRequestBuilders.post(uri)
@@ -48,7 +46,7 @@ public class ReceitaControllerTest {
 	
 	@Test
 	public void shouldGet200FromFindById() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.get("/receitas/{id}", 1))
+		mock.perform(MockMvcRequestBuilders.get("/receitas/{id}", 3))
 				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 	
@@ -72,7 +70,7 @@ public class ReceitaControllerTest {
 				+ "\"data\": \"11/10/2000\"\r\n"
 				+ "}";
 		
-		mock.perform(MockMvcRequestBuilders.put("/receitas/{id}", 1)
+		mock.perform(MockMvcRequestBuilders.put("/receitas/{id}", 3)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is(200));
@@ -80,7 +78,7 @@ public class ReceitaControllerTest {
 	
 	@Test
 	public void shouldGet200FromDeletById() throws Exception {		
-		mock.perform(MockMvcRequestBuilders.delete("/receitas/{id}", 1))
+		mock.perform(MockMvcRequestBuilders.delete("/receitas/{id}", 3))
 				.andExpect(MockMvcResultMatchers.status().is(204));
 	}
 }

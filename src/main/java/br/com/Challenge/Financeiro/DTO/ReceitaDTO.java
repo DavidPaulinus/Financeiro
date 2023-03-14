@@ -1,5 +1,9 @@
 package br.com.Challenge.Financeiro.DTO;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,7 +14,8 @@ public record ReceitaDTO(
 		@NotNull
 		Double valor, 
 		
-		@NotBlank
-		String data) {
+		@NotNull
+		@JsonFormat(pattern = "dd/MM/yyy")
+		LocalDate data) {
 
 }

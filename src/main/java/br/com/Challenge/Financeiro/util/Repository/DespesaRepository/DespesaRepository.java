@@ -1,4 +1,4 @@
-package br.com.Challenge.Financeiro.DespesaRepository;
+package br.com.Challenge.Financeiro.util.Repository.DespesaRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

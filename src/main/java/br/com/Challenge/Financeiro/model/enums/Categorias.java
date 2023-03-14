@@ -1,4 +1,4 @@
-package br.com.Challenge.Financeiro.enums;
+package br.com.Challenge.Financeiro.model.enums;
 
 public enum Categorias {
 	ALIMENTACAO,

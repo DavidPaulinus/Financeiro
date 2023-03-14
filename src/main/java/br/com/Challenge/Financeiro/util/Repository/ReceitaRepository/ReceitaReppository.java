@@ -1,4 +1,4 @@
-package br.com.Challenge.Financeiro.util.ReceitaRepository;
+package br.com.Challenge.Financeiro.util.Repository.ReceitaRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

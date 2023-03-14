@@ -1,5 +1,6 @@
 package br.com.Challenge.Financeiro.service;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.Challenge.Financeiro.model.Receita;
-import br.com.Challenge.Financeiro.util.ReceitaRepository.ReceitaReppository;
+import br.com.Challenge.Financeiro.util.Repository.ReceitaRepository.ReceitaReppository;
 
 @Service
 public class ServiceReceita {
@@ -27,7 +28,7 @@ public class ServiceReceita {
 		var list = rRep.findAll();
 
 		for (Receita rec : list) {
-			if (rec.getData().getMonth() == recei.getData().getMonth() - 1
+			if (rec.getData().getMonth() == recei.getData().getMonth()
 					&& rec.getDescricao().equals(recei.getDescricao())) {
 				throw new IllegalArgumentException("Não é possível salvar uma receita com a mesma descrição no mesmo mês");
 			}
@@ -39,7 +40,7 @@ public class ServiceReceita {
 		List<Receita> teste = new ArrayList<>();
 
 		for (Receita list : rRep.findAll()) {
-			if (list.getData().getMonth() == mes - 1) {
+			if (list.getData().getMonth() == Month.of(mes-1)) {
 				teste.add(list);
 			}
 

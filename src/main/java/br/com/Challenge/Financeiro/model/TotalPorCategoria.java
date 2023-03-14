@@ -1,6 +1,6 @@
 package br.com.Challenge.Financeiro.model;
 
-import br.com.Challenge.Financeiro.enums.Categorias;
+import br.com.Challenge.Financeiro.model.enums.Categorias;
 import lombok.Getter;
 
 @Getter

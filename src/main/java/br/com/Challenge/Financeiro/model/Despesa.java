@@ -1,10 +1,10 @@
 package br.com.Challenge.Financeiro.model;
 
 import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDate;
 
 import br.com.Challenge.Financeiro.DTO.DespesaDTO;
-import br.com.Challenge.Financeiro.enums.Categorias;
+import br.com.Challenge.Financeiro.model.enums.Categorias;
 import br.com.Challenge.Financeiro.util.Conversor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,7 +29,7 @@ public class Despesa {
 	private Long id;
 	private String descricao;
 	private Double valor;
-	private Date data;
+	private LocalDate data;
 	
 	@Enumerated(EnumType.STRING)
 	private Categorias categoria;
@@ -37,14 +37,14 @@ public class Despesa {
 	public Despesa(DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
-		this.data = Conversor.toDate(dto.data());
+		this.data = dto.data();
 		this.categoria = Conversor.categoriaOutros(dto.categoria());
 	}
 
 	public void atualizarDespesa(@Valid DespesaDTO dto) throws ParseException {
 		this.descricao = dto.descricao();
 		this.valor = dto.valor();
-		this.data = Conversor.toDate(dto.data());
+		this.data = dto.data();
 		this.categoria = Conversor.categoriaOutros(dto.categoria());
 	}
 

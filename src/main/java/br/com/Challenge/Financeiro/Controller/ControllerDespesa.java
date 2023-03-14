@@ -3,7 +3,6 @@ package br.com.Challenge.Financeiro.Controller;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.Challenge.Financeiro.DTO.DespesaDTO;
 import br.com.Challenge.Financeiro.DTO.DespesaDetalhamentoDTO;
 import br.com.Challenge.Financeiro.DTO.DespesaListaDTO;
-import br.com.Challenge.Financeiro.DespesaRepository.DespesaRepository;
 import br.com.Challenge.Financeiro.model.Despesa;
 import br.com.Challenge.Financeiro.service.ServiceDespesa;
 import jakarta.transaction.Transactional;
@@ -68,8 +66,7 @@ public class ControllerDespesa {
 
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<DespesaDetalhamentoDTO> atualizarDespesa(@PathVariable Long id,
-			@RequestBody @Valid DespesaDTO dto) throws ParseException {
+	public ResponseEntity<DespesaDetalhamentoDTO> atualizarDespesa(@PathVariable Long id, @RequestBody @Valid DespesaDTO dto) throws ParseException {
 
 		var desp = service.detalhar(id);
 		desp.atualizarDespesa(dto);

@@ -1,5 +1,6 @@
 package br.com.Challenge.Financeiro.service;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.Challenge.Financeiro.DespesaRepository.DespesaRepository;
 import br.com.Challenge.Financeiro.model.Despesa;
+import br.com.Challenge.Financeiro.util.Repository.DespesaRepository.DespesaRepository;
 
 @Service
 public class ServiceDespesa {
@@ -39,7 +40,7 @@ public class ServiceDespesa {
 		List<Despesa> teste = new ArrayList<>();
 
 		for (Despesa list : dRep.findAll()) {
-			if (list.getData().getMonth() == mes - 1) {
+			if (list.getData().getMonth() == Month.of(mes-1)) {
 				teste.add(list);
 			}
 
